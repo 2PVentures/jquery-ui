@@ -1660,6 +1660,7 @@ $.extend( Datepicker.prototype, {
 			selectOtherMonths, defaultDate, html, dow, row, group, col, selectedDate,
 			cornerClass, calender, thead, day, daysInMonth, leadDays, curRows, numRows,
 			printDate, dRow, tbody, daySettings, otherMonth, unselectable,
+			smallMonthPadding = "",
 			tempDate = new Date(),
 			today = this._daylightSavingAdjust(
 				new Date( tempDate.getFullYear(), tempDate.getMonth(), tempDate.getDate() ) ), // clear time
@@ -1787,6 +1788,7 @@ $.extend( Datepicker.prototype, {
 				this.maxRows = numRows;
 				printDate = this._daylightSavingAdjust( new Date( drawYear, drawMonth, 1 - leadDays ) );
 				for ( dRow = 0; dRow < numRows; dRow++ ) { // create date picker rows
+					console.log( "num rows and col", numRows, col ); // jshint ignore:line
 					calender += "<tr>";
 					tbody = ( !showWeek ? "" : "<td class='ui-datepicker-week-col'>" +
 						this._get( inst, "calculateWeek" )( printDate ) + "</td>" );
@@ -1821,13 +1823,20 @@ $.extend( Datepicker.prototype, {
 					}
 					calender += tbody + "</tr>";
 				}
+
 				drawMonth++;
 				if ( drawMonth > 11 ) {
 					drawMonth = 0;
 					drawYear++;
 				}
-				calender += "</tbody></table>" + ( isMultiMonth ? "</div>" +
-							( ( numMonths[ 0 ] > 0 && col === numMonths[ 1 ] - 1 ) ? "<div class='ui-datepicker-row-break'></div>" : "" ) : "" );
+
+				// If the number of rows in any of the calendars is 6, then pad the calendar with an empty tr
+				if ( numRows < 6 ) {
+					smallMonthPadding = "<tr></tr>";
+				}
+
+				calender += smallMonthPadding + "</tbody></table>" + ( isMultiMonth ? "</div>" +
+						( ( numMonths[ 0 ] > 0 && col === numMonths[ 1 ] - 1 ) ? "<div class='ui-datepicker-row-break'></div>" : "" ) : "" );
 				group += calender;
 			}
 			html += group;
