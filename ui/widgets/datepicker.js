@@ -1788,7 +1788,6 @@ $.extend( Datepicker.prototype, {
 				this.maxRows = numRows;
 				printDate = this._daylightSavingAdjust( new Date( drawYear, drawMonth, 1 - leadDays ) );
 				for ( dRow = 0; dRow < numRows; dRow++ ) { // create date picker rows
-					console.log( "num rows and col", numRows, col ); // jshint ignore:line
 					calender += "<tr>";
 					tbody = ( !showWeek ? "" : "<td class='ui-datepicker-week-col'>" +
 						this._get( inst, "calculateWeek" )( printDate ) + "</td>" );
